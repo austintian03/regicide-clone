@@ -12,7 +12,7 @@ func _ready() -> void:
 	enter_state(State.BASE)
 
 # state transition conditions
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_pressed("right_mouse") and current_state == State.CLICKED:
 		switch_state(State.BASE)
 
