@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b78nlaxw8y6hq"
-path="res://.godot/imported/cardsLarge_tilemap_packed.png-ece1513b7300cfbe74f11783689a8b9a.ctex"
+uid="uid://ba6vhinu4nthf"
+path="res://.godot/imported/card_clubs_09.png-285af6b3f2fc9892058c214e5aa70359.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cardsLarge_tilemap_packed.png"
-dest_files=["res://.godot/imported/cardsLarge_tilemap_packed.png-ece1513b7300cfbe74f11783689a8b9a.ctex"]
+source_file="res://assets/cards/card_clubs_09.png"
+dest_files=["res://.godot/imported/card_clubs_09.png-285af6b3f2fc9892058c214e5aa70359.ctex"]
 
 [params]
 
