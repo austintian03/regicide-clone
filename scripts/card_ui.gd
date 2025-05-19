@@ -1,7 +1,7 @@
 class_name CardUI
 extends Control
 
-enum State {BASE, CLICKED}
+enum State {BASE, HOVERED, CLICKED}
 var current_state : State
 
 @onready var color: ColorRect = $Color
@@ -11,25 +11,32 @@ var current_state : State
 func _ready() -> void:
 	enter_state(State.BASE)
 
+# state transition conditions
+func _process(delta: float) -> void:
+	if Input.is_action_pressed("right_mouse") and current_state == State.CLICKED:
+		switch_state(State.BASE)
+
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_mouse"):
-		if current_state == State.BASE:
-			print("switching from base to clicked")
+		if current_state != State.CLICKED:
 			switch_state(State.CLICKED)
-		elif current_state == State.CLICKED:
-			print("switching from clicked to base")
+		else:
 			switch_state(State.BASE)
-	
-	if event.is_action_pressed("right_mouse"):
-		if current_state == State.CLICKED:
-			print("switching from clicked to base")
-			switch_state(State.BASE)
-		
 
+func _on_mouse_entered() -> void:
+	if current_state == State.BASE:
+		switch_state(State.HOVERED)
+
+func _on_mouse_exited() -> void:
+	if current_state == State.HOVERED:
+		switch_state(State.BASE)
+
+
+# state handling code
 func switch_state(state: State) -> void:
 	exit_state(current_state)
 	enter_state(state)
-	
+
 func enter_state(state: State) -> void:
 	current_state = state
 	match current_state:
@@ -39,7 +46,10 @@ func enter_state(state: State) -> void:
 		State.CLICKED:
 			state_label.text = "Clicked"
 			color.color = Color.ORANGE
-			
-			
+		State.HOVERED:
+			state_label.text = "Hovered"
+			color.color = Color.WEB_PURPLE
+	print("Entered " + state_label.text)
+
 func exit_state(_state: State) -> void:
-	pass
+	print("Exiting " + state_label.text)
