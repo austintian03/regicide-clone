@@ -1,15 +1,32 @@
-class_name Card
+class_name CardResource
 extends Resource
 
 enum Suit {CLUBS, DIAMONDS, HEARTS, SPADES}
 
-@export var suit : Suit
-@export var rank : int:
+var suit : Suit
+var rank : int:
 	set(value):
 		rank = clampi(value, 1, 13)
+var texture : Texture2D
+
+func _init(p_suit = "spades", p_rank = 13) -> void:
+	_set_suit(p_suit)
+	rank = p_rank
+	_load_texture()
+
+func _set_suit(value: String) -> void:
+	match value.to_lower():
+			"clubs":
+				suit = Suit.CLUBS
+			"diamonds":
+				suit = Suit.DIAMONDS
+			"hearts":
+				suit = Suit.HEARTS
+			"spades":
+				suit = Suit.SPADES
 
 #var texture : Texture = load_texture()
-func load_texture() -> Texture2D:
+func _load_texture() -> void:
 	var suit_str = Suit.keys()[suit].to_lower()
 	var rank_str : String
 	match rank:
@@ -28,4 +45,4 @@ func load_texture() -> Texture2D:
 	
 	var path_format_string = "res://assets/cards/card_%s_%s.png"
 	var texture_path = path_format_string % [suit_str, rank_str]
-	return load(texture_path)
+	texture = load(texture_path)
