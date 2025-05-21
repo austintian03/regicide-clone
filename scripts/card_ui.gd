@@ -3,7 +3,7 @@ extends Control
 
 enum State {BASE, HOVERED, CLICKED}
 var current_state : State
-@export var card_props : CardResource
+@export var card : CardResource
 
 @onready var texture_rect: TextureRect = $TextureRect
 @onready var color: ColorRect = $Color
@@ -12,8 +12,8 @@ var current_state : State
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	enter_state(State.BASE)
-	if card_props:
-		texture_rect.texture = card_props.texture
+	if card:
+		texture_rect.texture = card.texture
 
 # state transition conditions
 func _process(_delta: float) -> void:

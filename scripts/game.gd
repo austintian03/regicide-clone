@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var hand: HBoxContainer = $CanvasLayer/Hand
+@onready var hand: Hand = $CanvasLayer/Hand
 var deck := CardPile.new("Deck")
 var enemies := CardPile.new("Enemies")
 var discard := CardPile.new("Discard")
@@ -25,12 +25,12 @@ func populate_deck() -> void:
 	print(deck)
 
 func fill_hand(num_cards: int = 8) -> void:
-	var hand_size = len(hand.get_children())
+	var hand_size = hand.hand_size()
 	if hand_size < MAX_HAND_SIZE:
 		for i in range(MAX_HAND_SIZE - hand_size):
 			var new_card_ui = card_ui_scene.instantiate()
-			new_card_ui.card_props = deck.draw_card()
-			hand.add_child(new_card_ui)
+			new_card_ui.card = deck.draw_card()
+			hand.add_and_sort_child(new_card_ui)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

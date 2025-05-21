@@ -1,7 +1,7 @@
 class_name CardResource
 extends Resource
 
-enum Suit {CLUBS, DIAMONDS, HEARTS, SPADES}
+enum Suit {CLUBS, HEARTS, SPADES, DIAMONDS}
 
 var suit : Suit
 var rank : int:
@@ -18,12 +18,12 @@ func _set_suit(value: String) -> void:
 	match value.to_lower():
 			"clubs":
 				suit = Suit.CLUBS
-			"diamonds":
-				suit = Suit.DIAMONDS
 			"hearts":
 				suit = Suit.HEARTS
 			"spades":
 				suit = Suit.SPADES
+			"diamonds":
+				suit = Suit.DIAMONDS
 
 #var texture : Texture = load_texture()
 func _load_texture() -> void:
@@ -46,3 +46,6 @@ func _load_texture() -> void:
 	var path_format_string = "res://assets/cards/card_%s_%s.png"
 	var texture_path = path_format_string % [suit_str, rank_str]
 	texture = load(texture_path)
+	
+func _to_string() -> String:
+	return str(rank) + Suit.keys()[suit] 

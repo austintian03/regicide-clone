@@ -21,6 +21,25 @@ func add_card(card: CardResource) -> void:
 	cards.append(card)
 	card_pile_size_changed.emit(cards.size())
 
+#func add_card_sorted(card: CardResource) -> void:
+	#var cards_size = cards.size()
+	#if cards_size == 0:
+		#add_card(card)
+	#else:
+		#var index_to_insert = 0
+		#for i in range(cards_size):
+			#if card.suit > cards[i].suit:
+				#index_to_insert += 1
+			#elif card.suit == cards[i].suit:
+				#if card.rank > cards[i].rank:
+					#index_to_insert += 1
+				#else:
+					#break
+			#else:
+				#break
+		#cards.insert(index_to_insert, card)
+		#card_pile_size_changed.emit(cards.size())
+	
 func shuffle() -> void:
 	cards.shuffle()
 

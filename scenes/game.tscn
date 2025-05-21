@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bil1xv3khbk0v"]
+[gd_scene load_steps=3 format=3 uid="uid://bil1xv3khbk0v"]
 
 [ext_resource type="Script" uid="uid://gb7octs05p8b" path="res://scripts/game.gd" id="1_lnu2h"]
+[ext_resource type="Script" uid="uid://dajm7hkhenond" path="res://scripts/hand.gd" id="2_yqjtg"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_lnu2h")
@@ -19,4 +20,5 @@ offset_top = -175.0
 offset_right = 400.0
 grow_horizontal = 2
 grow_vertical = 0
+script = ExtResource("2_yqjtg")
 metadata/_edit_group_ = true
