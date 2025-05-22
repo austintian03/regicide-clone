@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://b204uqm8ohqbh"]
+[gd_scene load_steps=2 format=3 uid="uid://d2l0peexqj83j"]
 
-[ext_resource type="Script" uid="uid://dajm7hkhenond" path="res://scripts/hand.gd" id="1_u4p2i"]
+[ext_resource type="Script" uid="uid://dajm7hkhenond" path="res://scripts/hand_ui.gd" id="1_u4p2i"]
 
-[node name="Hand" type="HBoxContainer"]
+[node name="HandUI" type="HBoxContainer"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0

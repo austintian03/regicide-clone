@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var hand: HandUI = $CanvasLayer/Hand
+@onready var hand: HandUI = $CanvasLayer/HandUI
 var deck := CardPile.new("Deck")
 var enemies := CardPile.new("Enemies")
 var discard := CardPile.new("Discard")
@@ -31,7 +31,8 @@ func fill_hand(num_cards: int = 8) -> void:
 			var new_card_ui = card_ui_scene.instantiate()
 			new_card_ui.card = deck.draw_card()
 			hand.add_and_sort_child(new_card_ui)
-
+	print(hand)
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass

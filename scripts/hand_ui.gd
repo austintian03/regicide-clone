@@ -30,3 +30,9 @@ func add_and_sort_child(card: CardUI) -> void:
 func hand_size() -> int:
 	return get_child_count()
 	
+func _to_string() -> String:
+	var _card_ui_children = get_children()
+	var _string_array: PackedStringArray
+	for card in _card_ui_children:
+		_string_array.append(str(card.card))
+	return ", ".join(_string_array)
