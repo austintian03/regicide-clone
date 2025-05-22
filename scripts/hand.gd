@@ -1,4 +1,4 @@
-class_name Hand
+class_name HandUI
 extends HBoxContainer
 
 func add_and_sort_child(card: CardUI) -> void:

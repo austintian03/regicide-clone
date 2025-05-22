@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var hand: Hand = $CanvasLayer/Hand
+@onready var hand: HandUI = $CanvasLayer/Hand
 var deck := CardPile.new("Deck")
 var enemies := CardPile.new("Enemies")
 var discard := CardPile.new("Discard")
