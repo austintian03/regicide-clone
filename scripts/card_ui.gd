@@ -3,11 +3,10 @@ extends Control
 
 enum State {BASE, HOVERED, CLICKED}
 var current_state : State
-@export var card : CardResource
-
-@onready var texture_rect: TextureRect = $TextureRect
-@onready var color: ColorRect = $Color
 @onready var state_label: Label = $State
+@onready var texture_rect: TextureRect = $TextureRect
+
+@export var card : CardResource
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -35,7 +34,6 @@ func _on_mouse_exited() -> void:
 	if current_state == State.HOVERED:
 		switch_state(State.BASE)
 
-
 # state handling code
 func switch_state(state: State) -> void:
 	exit_state(current_state)
@@ -46,14 +44,18 @@ func enter_state(state: State) -> void:
 	match current_state:
 		State.BASE:
 			state_label.text = "Base"
-			color.color = Color.WEB_GREEN
 		State.CLICKED:
 			state_label.text = "Clicked"
-			color.color = Color.ORANGE
+			offset_bottom -= 30
 		State.HOVERED:
 			state_label.text = "Hovered"
-			color.color = Color.WEB_PURPLE
+			offset_bottom -= 15
 	print("Entered " + state_label.text)
 
-func exit_state(_state: State) -> void:
+func exit_state(state: State) -> void:
 	print("Exiting " + state_label.text)
+	match state:
+		State.CLICKED:
+			offset_bottom += 30
+		State.HOVERED:
+			offset_bottom += 15
