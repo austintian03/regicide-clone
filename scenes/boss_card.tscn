@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cb06iatai6s6i"]
+
+[ext_resource type="Script" uid="uid://dltcr1kk03r6r" path="res://scripts/boss_card.gd" id="1_nhtf2"]
+
+[node name="BossCard" type="Node2D"]
+script = ExtResource("1_nhtf2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
