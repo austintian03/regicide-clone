@@ -17,10 +17,19 @@ func draw_card() -> CardResource:
 	card_pile_size_changed.emit(cards.size())
 	return card
 
+func draw_cards(num_cards: int) -> Array[CardResource]:
+	var drawn_cards: Array[CardResource] = []
+	for i in range(num_cards):
+		drawn_cards.append(draw_card())
+	return drawn_cards
+	
 func add_card(card: CardResource) -> void:
 	cards.append(card)
 	card_pile_size_changed.emit(cards.size())
 
+func add_cards(added_cards: Array[CardResource]) -> void:
+	cards.append_array(added_cards)
+	
 #func add_card_sorted(card: CardResource) -> void:
 	#var cards_size = cards.size()
 	#if cards_size == 0:
@@ -46,6 +55,9 @@ func shuffle() -> void:
 func clear() -> void:
 	cards.clear()
 
+func get_size() -> int:
+	return cards.size()
+	
 func _to_string() -> String:
 	var _pile_name = id + "\n" 
 	var _card_strings: PackedStringArray = []
