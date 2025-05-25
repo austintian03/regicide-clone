@@ -6,7 +6,6 @@ extends Node2D
 var deck := CardPile.new("Deck")
 var enemies := CardPile.new("Enemies")
 var discard := CardPile.new("Discard")
-var card_ui_scene = preload("res://scenes/card_ui.tscn")
 
 const MAX_HAND_SIZE = 8
 const SUITS = ["clubs", "diamonds", "hearts", "spades"]
@@ -27,7 +26,7 @@ func populate(pile: CardPile, ranks: Array) -> void:
 		for r in ranks:
 			pile.add_card(CardResource.new(s, r))
 	pile.shuffle()
-	print(pile)
+	#print(pile)
 
 func populate_enemies() -> void:
 	var temp_pile = CardPile.new("temp")
@@ -39,11 +38,9 @@ func fill_hand(num_cards: int = 8) -> void:
 	var max_cards_can_draw = MAX_HAND_SIZE - hand.hand_size()
 	var cards_to_draw = min(num_cards, max_cards_can_draw)
 	for i in range(cards_to_draw):
-		var new_card_ui = card_ui_scene.instantiate()
-		new_card_ui.card = deck.draw_card()
-		hand.add_and_sort_child(new_card_ui)
+		hand.add_and_sort_card(deck.draw_card())
 	print(hand)
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
