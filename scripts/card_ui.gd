@@ -1,7 +1,9 @@
 class_name CardUI
 extends Control
 
-enum State {BASE, HOVERED, CLICKED}
+signal card_selected(card_rank, select_status)
+
+enum State {BASE, HOVERED, CLICKED, UNSELECTABLE}
 var current_state : State
 @onready var state_label: Label = $State
 @onready var texture_rect: TextureRect = $TextureRect
@@ -16,11 +18,11 @@ func _ready() -> void:
 
 # state transition conditions
 func _process(_delta: float) -> void:
-	if Input.is_action_pressed("right_mouse") and current_state == State.CLICKED:
+	if Input.is_action_pressed("right_mouse") and (current_state == State.CLICKED or current_state == State.UNSELECTABLE):
 		switch_state(State.BASE)
 
 func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("left_mouse"):
+	if event.is_action_pressed("left_mouse") and current_state != State.UNSELECTABLE:
 		if current_state != State.CLICKED:
 			switch_state(State.CLICKED)
 		else:
@@ -36,8 +38,9 @@ func _on_mouse_exited() -> void:
 
 # state handling code
 func switch_state(state: State) -> void:
-	exit_state(current_state)
-	enter_state(state)
+	if current_state != state:
+		exit_state(current_state)
+		enter_state(state)
 
 func enter_state(state: State) -> void:
 	current_state = state
@@ -45,17 +48,55 @@ func enter_state(state: State) -> void:
 		State.BASE:
 			state_label.text = "Base"
 		State.CLICKED:
+			card_selected.emit(card.rank, "select")
 			state_label.text = "Clicked"
 			offset_bottom -= 30
 		State.HOVERED:
 			state_label.text = "Hovered"
 			offset_bottom -= 15
+		State.UNSELECTABLE:
+			state_label.text = "Unselectable"
 	print("Entered " + state_label.text)
 
 func exit_state(state: State) -> void:
 	print("Exiting " + state_label.text)
 	match state:
 		State.CLICKED:
+			card_selected.emit(card.rank, "unselect")
 			offset_bottom += 30
 		State.HOVERED:
 			offset_bottom += 15
+
+# functions used to check if cards can be selected
+# to be called with the help of the manager script (HandUI),
+# because elsewise a singular Card doesn't know when a neighbor Card(s) is selected
+func set_selectable(selected_ranks: Array[int]) -> void:
+	if current_state != State.CLICKED:
+		var selectable = check_selectable(selected_ranks)
+		toggle_selectable(selectable)
+
+func check_selectable(selected_ranks: Array[int]) -> bool:
+	var count = selected_ranks.size()
+	var sum = selected_ranks.reduce(func(accum, num): return accum + num, 0)
+	
+	# if nothing or an Ace is the only card chosen, everything is selectable
+	if count == 0 or sum == 1:
+		return true
+	# if only 1 card has been chosen, then Aces are still selectable
+	if count == 1 and card.rank == 1:
+		return true
+	# if 2 cards have been chosen and one of them is already an Ace, nothing is selectable
+	if count == 2 and selected_ranks.has(1):
+		return false
+	# elsewise if Aces haven't been selected
+	if card.rank >= 6:
+		return false
+	elif !selected_ranks.has(card.rank) or sum >= 10:
+		return false
+	return true
+
+func toggle_selectable(selectable: bool) -> void:
+	if not selectable:
+		switch_state(State.UNSELECTABLE)
+	else:
+		switch_state(State.BASE)
