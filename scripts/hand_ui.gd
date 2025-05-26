@@ -3,8 +3,8 @@ extends HBoxContainer
 
 var card_ui_scene = preload("res://scenes/card_ui.tscn")
 
-#func _on_card_selected() -> void:
-	
+var selected_card_ranks: Array[int] = []
+
 func add_and_sort_card(card_resource: CardResource) -> void:
 	"Adds and sorts the hand of CardUI children as elements are added each time. Sort order based on CardResource suit and rank."
 	var card = instantiate_card(card_resource)
@@ -30,13 +30,24 @@ func add_and_sort_card(card_resource: CardResource) -> void:
 	move_child(card, index_to_insert)
 	
 func instantiate_card(card_resource: CardResource) -> CardUI:
-	var card_child = card_ui_scene.instantiate()
+	var card_child = card_ui_scene.instantiate() as CardUI
 	card_child.card = card_resource
+	card_child.card_selected.connect(_on_card_selected)
+	card_child.add_to_group("Hand")
 	return card_child
+
+# called when card_selected signal is emitted by CardUI child 
+func _on_card_selected(card_rank: int, select_status: String) -> void:
+	if select_status == "select":
+		selected_card_ranks.append(card_rank)
+	elif select_status == "unselect":
+		selected_card_ranks.erase(card_rank)
+	# use SceneTree to call set_selectable() on all cards in Hand w/ list of selected cards as argument
+	get_tree().call_group("Hand", "set_selectable", selected_card_ranks)
 
 func hand_size() -> int:
 	return get_child_count()
-	
+
 func _to_string() -> String:
 	var _card_ui_children = get_children()
 	var _string_array: PackedStringArray
