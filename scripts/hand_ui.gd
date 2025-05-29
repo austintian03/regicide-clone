@@ -1,6 +1,8 @@
 class_name HandUI
 extends HBoxContainer
 
+signal cards_played(card_values)
+
 var card_ui_scene = preload("res://scenes/card_ui.tscn")
 var selected_card_ranks: Array[int] = []
 
@@ -62,11 +64,10 @@ func _on_play_button_pressed() -> void:
 	
 	# play selected cards
 	var cards_to_play = get_tree().get_nodes_in_group("Selected Cards")
+	var released_cards: Array[CardResource] = []
 	for card in cards_to_play:
-		print(str(card.card))
-		card.remove_from_group("Hand")
-		remove_child(card)
-	get_tree().call_group("Selected Cards", "play")
+		released_cards.append(card.play())
+	cards_played.emit(released_cards)
 	
 	# reset selectable cards
 	selected_card_ranks.clear()
