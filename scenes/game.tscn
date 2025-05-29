@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bil1xv3khbk0v"]
+[gd_scene load_steps=5 format=3 uid="uid://bil1xv3khbk0v"]
 
 [ext_resource type="Script" uid="uid://gb7octs05p8b" path="res://scripts/game.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://d2l0peexqj83j" path="res://scenes/hand_ui.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://cb06iatai6s6i" path="res://scenes/boss_card.tscn" id="3_lnu2h"]
+[ext_resource type="Theme" uid="uid://dwui6ncqwsy6b" path="res://main_theme.tres" id="4_lbhrr"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_lnu2h")
@@ -12,5 +13,15 @@ metadata/_edit_lock_ = true
 
 [node name="HandUI" parent="CanvasLayer" instance=ExtResource("2_yqjtg")]
 
+[node name="PlayButton" type="Button" parent="CanvasLayer"]
+offset_left = 1056.0
+offset_top = 440.0
+offset_right = 1248.0
+offset_bottom = 512.0
+theme = ExtResource("4_lbhrr")
+text = "Play"
+
 [node name="BossCard" parent="." instance=ExtResource("3_lnu2h")]
-position = Vector2(640, 360)
+position = Vector2(640, 270)
+
+[connection signal="pressed" from="CanvasLayer/PlayButton" to="CanvasLayer/HandUI" method="_on_play_button_pressed"]

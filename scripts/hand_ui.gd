@@ -3,8 +3,6 @@ extends HBoxContainer
 
 var card_ui_scene = preload("res://scenes/card_ui.tscn")
 
-var selected_card_ranks: Array[int] = []
-
 func add_and_sort_card(card_resource: CardResource) -> void:
 	"Adds and sorts the hand of CardUI children as elements are added each time. Sort order based on CardResource suit and rank."
 	var card = instantiate_card(card_resource)
@@ -36,14 +34,16 @@ func instantiate_card(card_resource: CardResource) -> CardUI:
 	card_child.add_to_group("Hand")
 	return card_child
 
-# called when card_selected signal is emitted by CardUI child 
-func _on_card_selected(card_rank: int, select_status: String) -> void:
+# called when card_selected signal is emitted by CardUI child
+func _on_card_selected(card_child: CardUI, select_status: String) -> void:
 	if select_status == "select":
-		selected_card_ranks.append(card_rank)
+		card_child.add_to_group("Selected Cards")
 	elif select_status == "unselect":
-		selected_card_ranks.erase(card_rank)
-	# use SceneTree to call set_selectable() on all cards in Hand w/ list of selected cards as argument
-	get_tree().call_group("Hand", "set_selectable", selected_card_ranks)
+		card_child.remove_from_group("Selected Cards")
+
+	# use SceneTree to call set_selectable() on all cards in Hand based on the ranks of cards in Selected Cards group
+	var card_ranks = get_tree().get_nodes_in_group("Selected Cards").map(func(c): return c.card.rank)
+	get_tree().call_group("Hand", "set_selectable", card_ranks)
 
 func hand_size() -> int:
 	return get_child_count()
@@ -54,3 +54,17 @@ func _to_string() -> String:
 	for card in _card_ui_children:
 		_string_array.append(str(card.card))
 	return ", ".join(_string_array)
+
+func _on_play_button_pressed() -> void:
+	print("Play button pressed!")
+	
+	# play selected cards
+	var cards_to_play = get_tree().get_nodes_in_group("Selected Cards")
+	for card in cards_to_play:
+		print(str(card.card))
+		card.remove_from_group("Hand")
+		remove_child(card)
+	get_tree().call_group("Selected Cards", "play")
+	
+	# reset selectable cards
+	get_tree().call_group("Hand", "set_selectable", [])
