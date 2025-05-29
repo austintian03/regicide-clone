@@ -2,6 +2,7 @@ class_name HandUI
 extends HBoxContainer
 
 var card_ui_scene = preload("res://scenes/card_ui.tscn")
+var selected_card_ranks: Array[int] = []
 
 func add_and_sort_card(card_resource: CardResource) -> void:
 	"Adds and sorts the hand of CardUI children as elements are added each time. Sort order based on CardResource suit and rank."
@@ -38,12 +39,13 @@ func instantiate_card(card_resource: CardResource) -> CardUI:
 func _on_card_selected(card_child: CardUI, select_status: String) -> void:
 	if select_status == "select":
 		card_child.add_to_group("Selected Cards")
+		selected_card_ranks.append(card_child.card.rank)
 	elif select_status == "unselect":
 		card_child.remove_from_group("Selected Cards")
-
+		selected_card_ranks.erase(card_child.card.rank)
+	
 	# use SceneTree to call set_selectable() on all cards in Hand based on the ranks of cards in Selected Cards group
-	var card_ranks = get_tree().get_nodes_in_group("Selected Cards").map(func(c): return c.card.rank)
-	get_tree().call_group("Hand", "set_selectable", card_ranks)
+	get_tree().call_group("Hand", "set_selectable", selected_card_ranks)
 
 func hand_size() -> int:
 	return get_child_count()
@@ -67,4 +69,5 @@ func _on_play_button_pressed() -> void:
 	get_tree().call_group("Selected Cards", "play")
 	
 	# reset selectable cards
-	get_tree().call_group("Hand", "set_selectable", [])
+	selected_card_ranks.clear()
+	get_tree().call_group("Hand", "set_selectable", selected_card_ranks)
