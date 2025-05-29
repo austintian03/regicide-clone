@@ -32,7 +32,10 @@ func _process(_delta: float) -> void:
 		switch_state(State.BASE)
 		
 func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("left_mouse") and current_state != State.UNSELECTABLE:
+	var point = get_local_mouse_position()
+	var mouse_over = Rect2(Vector2.ZERO, size).has_point(point)
+	
+	if mouse_over and event.is_action_pressed("left_mouse") and current_state != State.UNSELECTABLE:
 		if current_state != State.CLICKED:
 			switch_state(State.CLICKED)
 		else:
