@@ -7,6 +7,8 @@ enum State {BASE, HOVERED, CLICKED, UNSELECTABLE}
 var current_state : State
 @onready var state_label: Label = $State
 @onready var texture_rect: TextureRect = $TextureRect
+@onready var area_2d: Area2D = $Area2D
+@onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D
 
 @export var card : CardResource
 
@@ -18,23 +20,23 @@ func _ready() -> void:
 
 # state transition conditions
 func _process(_delta: float) -> void:
+	var point = get_local_mouse_position() 
+	var mouse_over = Rect2(Vector2.ZERO, size).has_point(point)
+	
+	if mouse_over and current_state == State.BASE:
+		switch_state(State.HOVERED)
+	elif mouse_over == false and current_state == State.HOVERED:
+		switch_state(State.BASE)
+	
 	if Input.is_action_pressed("right_mouse") and (current_state == State.CLICKED or current_state == State.UNSELECTABLE):
 		switch_state(State.BASE)
-
+		
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_mouse") and current_state != State.UNSELECTABLE:
 		if current_state != State.CLICKED:
 			switch_state(State.CLICKED)
 		else:
 			switch_state(State.BASE)
-
-func _on_mouse_entered() -> void:
-	if current_state == State.BASE:
-		switch_state(State.HOVERED)
-
-func _on_mouse_exited() -> void:
-	if current_state == State.HOVERED:
-		switch_state(State.BASE)
 
 # state handling code
 func switch_state(state: State) -> void:
