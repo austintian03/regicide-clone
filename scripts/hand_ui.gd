@@ -6,6 +6,9 @@ signal cards_played(card_values)
 var card_ui_scene = preload("res://scenes/card_ui.tscn")
 var selected_card_ranks: Array[int] = []
 
+func _ready() -> void:
+	Events.connect("card_selected", _on_card_selected)
+	
 func add_and_sort_card(card_resource: CardResource) -> void:
 	"Adds and sorts the hand of CardUI children as elements are added each time. Sort order based on CardResource suit and rank."
 	var card = instantiate_card(card_resource)
@@ -33,7 +36,6 @@ func add_and_sort_card(card_resource: CardResource) -> void:
 func instantiate_card(card_resource: CardResource) -> CardUI:
 	var card_child = card_ui_scene.instantiate() as CardUI
 	card_child.card = card_resource
-	card_child.card_selected.connect(_on_card_selected)
 	card_child.add_to_group("Hand")
 	return card_child
 

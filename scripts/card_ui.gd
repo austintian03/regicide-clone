@@ -1,8 +1,6 @@
 class_name CardUI
 extends Control
 
-signal card_selected(card_self, select_status)
-
 enum State {BASE, HOVERED, CLICKED, UNSELECTABLE}
 var current_state : State
 @onready var state_label: Label = $State
@@ -53,7 +51,7 @@ func enter_state(state: State) -> void:
 		State.BASE:
 			state_label.text = "Base"
 		State.CLICKED:
-			card_selected.emit(self, "select")
+			Events.emit_signal("card_selected", self, "select")
 			state_label.text = "Clicked"
 			offset_bottom -= 30
 		State.HOVERED:
@@ -67,7 +65,7 @@ func exit_state(state: State) -> void:
 	print("Exiting " + state_label.text)
 	match state:
 		State.CLICKED:
-			card_selected.emit(self, "unselect")
+			Events.emit_signal("card_selected", self, "unselect")
 			offset_bottom += 30
 		State.HOVERED:
 			offset_bottom += 15
