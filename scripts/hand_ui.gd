@@ -1,8 +1,6 @@
 class_name HandUI
 extends HBoxContainer
 
-signal cards_played(card_values)
-
 var card_ui_scene = preload("res://scenes/card_ui.tscn")
 var selected_card_ranks: Array[int] = []
 
@@ -69,7 +67,7 @@ func _on_play_button_pressed() -> void:
 	var released_cards: Array[CardResource] = []
 	for card in cards_to_play:
 		released_cards.append(card.play())
-	cards_played.emit(released_cards)
+	Events.emit_signal("cards_played", released_cards)
 	
 	# reset selectable cards
 	selected_card_ranks.clear()
