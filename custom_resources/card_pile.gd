@@ -9,7 +9,7 @@ var id : String
 func _init(p_id: String) -> void:
 	id = p_id
 	
-func empty() -> bool:
+func is_empty() -> bool:
 	return cards.is_empty()
 
 func draw_card() -> CardResource:
