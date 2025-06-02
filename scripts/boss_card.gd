@@ -23,6 +23,7 @@ func set_card(p_card: CardResource) -> void:
 
 func take_damage(dmg: int) -> void:
 	health -= dmg
+	Events.emit_signal("boss_card_damaged", health)
 
 func do_damage() -> int:
 	return attack
