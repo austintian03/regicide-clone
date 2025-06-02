@@ -67,8 +67,11 @@ func _on_play_button_pressed() -> void:
 	var released_cards: Array[CardResource] = []
 	for card in cards_to_play:
 		released_cards.append(card.play())
-	Events.emit_signal("cards_played", released_cards)
-	
+		card.free()
+
 	# reset selectable cards
 	selected_card_ranks.clear()
 	get_tree().call_group("Hand", "set_selectable", selected_card_ranks)
+	
+	# emit cards played signal
+	Events.emit_signal("cards_played", released_cards)

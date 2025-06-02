@@ -59,10 +59,10 @@ func enter_state(state: State) -> void:
 			offset_bottom -= 15
 		State.UNSELECTABLE:
 			state_label.text = "Unselectable"
-	print("Entered " + state_label.text)
+	#print("Entered " + state_label.text)
 
 func exit_state(state: State) -> void:
-	print("Exiting " + state_label.text)
+	#print("Exiting " + state_label.text)
 	match state:
 		State.CLICKED:
 			Events.emit_signal("card_selected", self, "unselect")
@@ -106,5 +106,4 @@ func toggle_selectable(selectable: bool) -> void:
 
 func play() -> CardResource :
 	print("Playing " + str(card))
-	queue_free()
 	return card
