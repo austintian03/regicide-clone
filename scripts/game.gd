@@ -7,6 +7,7 @@ extends Node2D
 var deck := CardPile.new("Deck")
 var enemies := CardPile.new("Enemies")
 var discard := CardPile.new("Discard")
+var play_area := CardPile.new("Play Area")
 
 # relevant player information
 var player_damage: int = 0
@@ -76,11 +77,17 @@ func resolve_boss_turn(boss_health: int) -> void:
 	if boss_health <= 0:
 		process_boss_death(boss_health)
 	else:
-		print("Boss card attacking!")
 		var post_mitigation_dmg = max(boss_card.do_damage() - player_defense, 0)
+		print("Boss card attacking for ", post_mitigation_dmg)
 		Events.emit_signal("boss_card_attacking", post_mitigation_dmg, player_defense)
 
 func process_boss_death(boss_health: int) -> void:
+	# reset player defense
+	player_defense = 0
+	
+	# move cards from play area to discard pile
+	discard.add_cards(play_area.draw_cards(play_area.get_size()))
+	
 	# release card resource to the correct pile depending on perfect lethal or not
 	if boss_health == 0:
 		print("Perfect lethal!")
@@ -90,7 +97,7 @@ func process_boss_death(boss_health: int) -> void:
 		discard.add_card(boss_card.on_death())
 	
 	# draw new boss card or win game
-	if enemies.get_size() > 0:
+	if enemies.is_empty():
 		boss_card.set_card(enemies.draw_card())
 	else:
 		boss_card.queue_free()
@@ -106,6 +113,8 @@ func process_play_effects(played_cards: Array[CardResource]) -> void:
 	for s in SUITS:
 		if s in card_suits and s != SUITS[boss_card.card.suit]:
 			resolve_suit_effect(s, card_sum)
+	
+	play_area.add_cards(played_cards)
 
 func resolve_suit_effect(suit: String, val: int) -> void:
 	match suit:
