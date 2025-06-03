@@ -130,7 +130,7 @@ func resolve_suit_effect(suit: String, val: int) -> void:
 # utility functions
 func fill_hand(num_cards: int = 8) -> void:
 	var max_cards_can_draw = MAX_HAND_SIZE - hand.hand_size()
-	var cards_to_draw = min(num_cards, max_cards_can_draw)
+	var cards_to_draw = min(num_cards, max_cards_can_draw, deck.get_size())
 	for i in range(cards_to_draw):
 		hand.add_and_sort_card(deck.draw_card())
 
