@@ -7,15 +7,17 @@ var suit : Suit
 var rank : int:
 	set(value):
 		rank = clampi(value, 1, 13)
+var card_value : int
 var texture : Texture2D
 
 func _init(p_suit = "spades", p_rank = 13) -> void:
-	_set_suit(p_suit)
 	rank = p_rank
+	_set_suit(p_suit)
+	_set_card_value()
 	_load_texture()
 
-func _set_suit(value: String) -> void:
-	match value.to_lower():
+func _set_suit(p_suit: String) -> void:
+	match p_suit.to_lower():
 			"clubs":
 				suit = Suit.CLUBS
 			"hearts":
@@ -25,7 +27,17 @@ func _set_suit(value: String) -> void:
 			"diamonds":
 				suit = Suit.DIAMONDS
 
-#var texture : Texture = load_texture()
+func _set_card_value() -> void:
+	match rank:
+		11:
+			card_value = 10
+		12: 
+			card_value = 15
+		13:
+			card_value = 20
+		_:
+			card_value = rank
+
 func _load_texture() -> void:
 	var suit_str = Suit.keys()[suit].to_lower()
 	var rank_str : String
