@@ -73,14 +73,14 @@ func exit_state(state: State) -> void:
 # functions used to check if cards can be selected
 # to be called with the help of the manager script (HandUI),
 # because elsewise a singular Card doesn't know when a neighbor Card(s) is selected
-func set_selectable(selected_ranks: Array[int], discard_target: int) -> void:
+func set_selectable(selected_values: Array[int], discard_target: int) -> void:
 	if current_state != State.CLICKED:
-		var selectable = check_selectable(selected_ranks, discard_target)
+		var selectable = check_selectable(selected_values, discard_target)
 		toggle_selectable(selectable)
 
-func check_selectable(selected_ranks: Array[int], discard_target: int) -> bool:
-	var count = selected_ranks.size()
-	var sum = selected_ranks.reduce(func(accum, num): return accum + num, 0)
+func check_selectable(selected_values: Array[int], discard_target: int) -> bool:
+	var count = selected_values.size()
+	var sum = selected_values.reduce(func(accum, num): return accum + num, 0)
 	
 	# check if there's a discard target
 	if discard_target > 0:
@@ -93,12 +93,12 @@ func check_selectable(selected_ranks: Array[int], discard_target: int) -> bool:
 	if count == 1 and card.rank == 1:
 		return true
 	# if 2 cards have been chosen and one of them is already an Ace, nothing is selectable
-	if count == 2 and selected_ranks.has(1):
+	if count == 2 and selected_values.has(1):
 		return false
 	# elsewise if Aces haven't been selected
 	if card.rank >= 6:
 		return false
-	elif !selected_ranks.has(card.rank) or sum >= 10:
+	elif !selected_values.has(card.card_value) or sum >= 10:
 		return false
 	return true
 

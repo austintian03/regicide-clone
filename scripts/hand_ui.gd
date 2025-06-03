@@ -1,7 +1,7 @@
 class_name HandUI
 extends HBoxContainer
 
-var selected_card_ranks: Array[int] = []
+var selected_card_values: Array[int] = []
 var discard_target: int = 0
 var card_ui_scene = preload("res://scenes/card_ui.tscn")
 
@@ -52,21 +52,21 @@ func _to_string() -> String:
 func _on_card_selected(card_child: CardUI, select_status: String) -> void:
 	if select_status == "select":
 		card_child.add_to_group("Selected Cards")
-		selected_card_ranks.append(card_child.card.rank)
+		selected_card_values.append(card_child.card.card_value)
 	elif select_status == "unselect":
 		card_child.remove_from_group("Selected Cards")
-		selected_card_ranks.erase(card_child.card.rank)
+		selected_card_values.erase(card_child.card.card_value)
 	
 	# use SceneTree to call set_selectable() on all cards in Hand based on the ranks of cards in Selected Cards group
-	get_tree().call_group("Hand", "set_selectable", selected_card_ranks, discard_target)
+	get_tree().call_group("Hand", "set_selectable", selected_card_values, discard_target)
 
 func _on_play_button_pressed() -> void:
-	if selected_card_ranks.size() > 0:
+	if selected_card_values.size() > 0:
 		print("Playing cards!")
 		Events.emit_signal("cards_played", release_selected_cards())
 
 func _on_discard_button_pressed() -> void:
-	if selected_card_ranks.size() > 0:
+	if selected_card_values.size() > 0:
 		print("Discarding cards!")
 		discard_target = 0
 		Events.emit_signal("cards_discarded", release_selected_cards())
@@ -80,7 +80,7 @@ func release_selected_cards() -> Array[CardResource]:
 		card.free()
 	
 	# reset selectable cards
-	selected_card_ranks.clear()
+	selected_card_values.clear()
 	get_tree().call_group("Hand", "toggle_selectable", true)
 	
 	return released_cards
