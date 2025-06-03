@@ -96,11 +96,11 @@ func process_boss_death(boss_health: int) -> void:
 
 func process_play_effects(played_cards: Array[CardResource]) -> void:
 	# set player_damage to sum of played cards
-	var card_sum = played_cards.reduce(func(accum, card): return accum + card.rank, 0)
+	var card_sum = played_cards.reduce(func(accum: int, card: CardResource): return accum + card.card_value, 0)
 	player_damage = card_sum
 	
 	# resolve suit effects of played cards (boss suit negates matching suit effect)
-	var card_suits = played_cards.map(func(card): return SUITS[card.suit])
+	var card_suits = played_cards.map(func(card: CardResource): return SUITS[card.suit])
 	for s in SUITS:
 		if s in card_suits and s != SUITS[boss_card.card.suit]:
 			resolve_suit_effect(s, card_sum)
