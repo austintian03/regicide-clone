@@ -21,7 +21,18 @@ offset_bottom = 512.0
 theme = ExtResource("4_lbhrr")
 text = "Play"
 
+[node name="DiscardButton" type="Button" parent="CanvasLayer"]
+visible = false
+offset_left = 1056.0
+offset_top = 440.0
+offset_right = 1248.0
+offset_bottom = 512.0
+theme = ExtResource("4_lbhrr")
+disabled = true
+text = "Discard"
+
 [node name="BossCard" parent="." instance=ExtResource("3_lnu2h")]
 position = Vector2(640, 270)
 
 [connection signal="pressed" from="CanvasLayer/PlayButton" to="CanvasLayer/HandUI" method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/DiscardButton" to="CanvasLayer/HandUI" method="_on_discard_button_pressed"]
