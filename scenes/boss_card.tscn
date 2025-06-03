@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://cb06iatai6s6i"]
+[gd_scene load_steps=3 format=3 uid="uid://cb06iatai6s6i"]
 
 [ext_resource type="Script" uid="uid://dltcr1kk03r6r" path="res://scripts/boss_card.gd" id="1_nhtf2"]
+[ext_resource type="Texture2D" uid="uid://coshan26ncdxp" path="res://assets/cards/card_clubs_K.png" id="2_ik4qx"]
 
 [node name="BossCard" type="Node2D"]
 script = ExtResource("1_nhtf2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(4, 4)
+texture = ExtResource("2_ik4qx")
