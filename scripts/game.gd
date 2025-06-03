@@ -1,9 +1,12 @@
 extends Node2D
 
 @onready var hand: HandUI = $CanvasLayer/HandUI
-@onready var boss_card: BossCard = $BossCard
 @onready var play_button: Button = $CanvasLayer/PlayButton
 @onready var discard_button: Button = $CanvasLayer/DiscardButton
+
+@onready var boss_card: BossCard = $BossUI/BossCard
+@onready var health_text: Label = $BossUI/HealthLabel/HealthText
+@onready var attack_text: Label = $BossUI/AttackLabel/AttackText
 
 # relevant card piles
 var deck := CardPile.new("Deck")
@@ -35,7 +38,7 @@ func _ready() -> void:
 	
 	# populate enemy pile with the royals
 	populate_enemies()
-	boss_card.set_card(enemies.draw_card())
+	draw_new_royal()
 
 # connected event signals which trigger game effects
 # these signals progress the game state in the order they appear in
@@ -44,6 +47,7 @@ func _on_cards_played(played_cards: Array[CardResource]) -> void:
 	resolve_player_turn(played_cards)
 	
 func _on_boss_card_damaged(boss_health: int) -> void:
+	health_text.text = str(max(boss_health, 0))
 	print("Resolving boss turn")
 	resolve_boss_turn(boss_health)
 	
@@ -89,7 +93,7 @@ func process_boss_death(boss_health: int) -> void:
 	
 	# draw new boss card or win game
 	if !enemies.is_empty():
-		boss_card.set_card(enemies.draw_card())
+		draw_new_royal()
 	else:
 		boss_card.queue_free()
 		print("You win!")
@@ -126,6 +130,7 @@ func resolve_suit_effect(suit: String, val: int) -> void:
 		"spades":
 			player_defense += val
 			print("Defense is now ", player_defense)
+			attack_text.text = str(max(boss_card.do_damage() - player_defense, 0))
 
 # utility functions
 func fill_hand(num_cards: int = 8) -> void:
@@ -154,3 +159,8 @@ func populate_enemies() -> void:
 	for r in ROYALS:
 		populate(temp_pile, [r])
 		enemies.add_cards(temp_pile.draw_cards(temp_pile.get_size()))
+
+func draw_new_royal() -> void:
+	boss_card.set_card(enemies.draw_card())
+	health_text.text = str(boss_card.health)
+	attack_text.text = str(boss_card.do_damage())
