@@ -66,7 +66,8 @@ func _on_play_button_pressed() -> void:
 		Events.emit_signal("cards_played", release_selected_cards())
 
 func _on_discard_button_pressed() -> void:
-	if selected_card_values.size() > 0:
+	var card_sum = selected_card_values.reduce(func(accum: int, val: int): return accum + val, 0)
+	if card_sum >= discard_target:
 		print("Discarding cards!")
 		discard_target = 0
 		Events.emit_signal("cards_discarded", release_selected_cards())
