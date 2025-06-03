@@ -73,14 +73,18 @@ func exit_state(state: State) -> void:
 # functions used to check if cards can be selected
 # to be called with the help of the manager script (HandUI),
 # because elsewise a singular Card doesn't know when a neighbor Card(s) is selected
-func set_selectable(selected_ranks: Array[int]) -> void:
+func set_selectable(selected_ranks: Array[int], discard_target: int) -> void:
 	if current_state != State.CLICKED:
-		var selectable = check_selectable(selected_ranks)
+		var selectable = check_selectable(selected_ranks, discard_target)
 		toggle_selectable(selectable)
 
-func check_selectable(selected_ranks: Array[int]) -> bool:
+func check_selectable(selected_ranks: Array[int], discard_target: int) -> bool:
 	var count = selected_ranks.size()
 	var sum = selected_ranks.reduce(func(accum, num): return accum + num, 0)
+	
+	# check if there's a discard target
+	if discard_target > 0:
+		return sum < discard_target
 	
 	# if nothing or an Ace is the only card chosen, everything is selectable
 	if count == 0 or sum == 1:
@@ -104,6 +108,6 @@ func toggle_selectable(selectable: bool) -> void:
 	else:
 		switch_state(State.BASE)
 
-func play() -> CardResource :
-	print("Playing " + str(card))
+func release() -> CardResource :
+	print("Releasing " + str(card))
 	return card
