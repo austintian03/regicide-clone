@@ -10,38 +10,60 @@ script = ExtResource("1_lnu2h")
 metadata/_edit_lock_ = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
 
 [node name="HandUI" parent="CanvasLayer" instance=ExtResource("2_yqjtg")]
 
 [node name="PlayButton" type="Button" parent="CanvasLayer"]
-offset_left = 1056.0
-offset_top = 440.0
-offset_right = 1248.0
-offset_bottom = 512.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -192.0
+offset_right = 72.0
+offset_bottom = -136.0
+grow_horizontal = 2
+grow_vertical = 0
 theme = ExtResource("4_lbhrr")
 text = "Play"
 
 [node name="DiscardButton" type="Button" parent="CanvasLayer"]
 visible = false
-offset_left = 1056.0
-offset_top = 440.0
-offset_right = 1248.0
-offset_bottom = 512.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -192.0
+offset_right = 72.0
+offset_bottom = -136.0
+grow_horizontal = 2
+grow_vertical = 0
 theme = ExtResource("4_lbhrr")
 disabled = true
 text = "Discard"
 
-[node name="BossUI" type="CanvasGroup" parent="."]
-position = Vector2(0, 24)
+[node name="BossUI" type="CanvasLayer" parent="."]
 
 [node name="BossCard" parent="BossUI" instance=ExtResource("3_lnu2h")]
-position = Vector2(640, 270)
+offset_top = -64.0
+offset_bottom = -64.0
 
 [node name="HealthLabel" type="Label" parent="BossUI"]
-offset_left = 375.0
-offset_top = 194.0
-offset_right = 531.0
-offset_bottom = 257.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -248.0
+offset_top = -92.0
+offset_right = -92.0
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("4_lbhrr")
 theme_override_colors/font_color = Color(0.588235, 0.0901961, 0.109804, 1)
 theme_override_font_sizes/font_size = 20
@@ -51,11 +73,10 @@ vertical_alignment = 1
 
 [node name="HealthText" type="Label" parent="BossUI/HealthLabel"]
 layout_mode = 0
-offset_left = -22.0
+offset_left = 35.0
 offset_top = 48.0
-offset_right = 104.0
+offset_right = 161.0
 offset_bottom = 138.0
-scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.588234, 0.0906817, 0.10962, 1)
 theme_override_font_sizes/font_size = 90
 text = "20"
@@ -63,10 +84,17 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="AttackLabel" type="Label" parent="BossUI"]
-offset_left = 752.0
-offset_top = 194.0
-offset_right = 908.0
-offset_bottom = 257.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 96.0
+offset_top = -92.0
+offset_right = 252.0
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("4_lbhrr")
 theme_override_colors/font_color = Color(0.163569, 0.163103, 0.21856, 1)
 theme_override_font_sizes/font_size = 20
@@ -78,7 +106,6 @@ layout_mode = 0
 offset_top = 48.0
 offset_right = 126.0
 offset_bottom = 138.0
-scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(0.164706, 0.164706, 0.219608, 1)
 theme_override_font_sizes/font_size = 90
 text = "20"
