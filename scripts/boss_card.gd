@@ -1,14 +1,14 @@
 class_name BossCard
-extends Node2D
+extends Control
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var card_sprite: TextureRect = $CardSprite
 
 var card: CardResource
 var health: int
 
 func set_card(p_card: CardResource) -> void:
 	card = p_card
-	sprite.texture = card.texture
+	card_sprite.texture = card.texture
 	match card.rank:
 		11:
 			health = 20
