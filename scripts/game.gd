@@ -8,6 +8,9 @@ extends Node2D
 @onready var health_text: Label = $BossUI/HealthLabel/HealthText
 @onready var attack_text: Label = $BossUI/AttackLabel/AttackText
 
+@onready var joker_button: TextureButton = $CanvasLayer/JokerButton
+@onready var joker_button_2: TextureButton = $CanvasLayer/JokerButton2
+
 # relevant card piles
 var deck := CardPile.new("Deck")
 var enemies := CardPile.new("Enemies")
@@ -30,6 +33,7 @@ func _ready() -> void:
 	Events.connect("cards_played", _on_cards_played)
 	Events.connect("boss_card_damaged", _on_boss_card_damaged)
 	Events.connect("cards_discarded", _on_cards_discarded)
+	Events.connect("joker_effect", _on_joker_effect)
 	
 	# populate player deck with cards and draw starting hand
 	populate(deck, NUMS)
@@ -54,7 +58,11 @@ func _on_boss_card_damaged(boss_health: int) -> void:
 func _on_cards_discarded(discarded_cards: Array[CardResource]) -> void:
 	discard.add_cards(discarded_cards)
 	swap_buttons()
-
+	
+func _on_joker_effect() -> void:
+	discard.add_cards(hand.discard_all())
+	fill_hand()
+	
 # game effect functions
 # these process game logic/rules using the values passed alongside the emitted game event signals
 func resolve_player_turn(played_cards: Array[CardResource]) -> void:
