@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bb5ubpk1nmxa3"]
+
+[ext_resource type="Texture2D" uid="uid://bu8a5ppxtk4v" path="res://assets/cards/jokers/card_joker_red2.png" id="1_uihrx"]
+[ext_resource type="Texture2D" uid="uid://csawjierl0nbt" path="res://assets/cards/jokers/card_joker_inverted.png" id="3_uihrx"]
+[ext_resource type="Texture2D" uid="uid://cspdmbmmhekgp" path="res://assets/cards/jokers/card_joker_green.png" id="3_wao0j"]
+[ext_resource type="Script" uid="uid://b2uvuuq2inrop" path="res://scripts/joker_button.gd" id="4_wao0j"]
+
+[node name="JokerButton" type="TextureButton"]
+anchors_preset = -1
+anchor_right = 0.092
+anchor_bottom = 0.125
+offset_right = -26.016
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_uihrx")
+texture_pressed = ExtResource("3_uihrx")
+texture_hover = ExtResource("3_wao0j")
+texture_disabled = ExtResource("3_uihrx")
+stretch_mode = 0
+script = ExtResource("4_wao0j")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
