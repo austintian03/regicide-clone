@@ -85,3 +85,14 @@ func release_selected_cards() -> Array[CardResource]:
 	get_tree().call_group("Hand", "toggle_selectable", true)
 	
 	return released_cards
+
+func discard_all() -> Array[CardResource]:
+	var cards = get_tree().get_nodes_in_group("Hand")
+	var released_cards: Array[CardResource] = []
+	for card in cards:
+		released_cards.append(card.release())
+		card.free() 
+	
+	selected_card_values.clear()
+	
+	return released_cards
