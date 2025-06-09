@@ -44,6 +44,14 @@ func _ready() -> void:
 	populate_enemies()
 	draw_new_royal()
 
+func check_defeat() -> void:
+	if joker_button.disabled and joker_button_2.disabled:
+		var hand_total = hand.hand_total()
+		if hand_total < hand.discard_target or hand_total == 0:
+			for child in get_children():
+				queue_free()
+			print("You lose!")
+
 # connected event signals which trigger game effects
 # these signals progress the game state in the order they appear in
 func _on_cards_played(played_cards: Array[CardResource]) -> void:
@@ -54,7 +62,8 @@ func _on_boss_card_damaged(boss_health: int) -> void:
 	health_text.text = str(max(boss_health, 0))
 	print("Resolving boss turn")
 	resolve_boss_turn(boss_health)
-	
+	check_defeat()
+
 func _on_cards_discarded(discarded_cards: Array[CardResource]) -> void:
 	discard.add_cards(discarded_cards)
 	swap_buttons()
@@ -62,7 +71,8 @@ func _on_cards_discarded(discarded_cards: Array[CardResource]) -> void:
 func _on_joker_effect() -> void:
 	discard.add_cards(hand.discard_all())
 	fill_hand()
-	
+	check_defeat()
+
 # game effect functions
 # these process game logic/rules using the values passed alongside the emitted game event signals
 func resolve_player_turn(played_cards: Array[CardResource]) -> void:
