@@ -96,3 +96,7 @@ func discard_all() -> Array[CardResource]:
 	selected_card_values.clear()
 	
 	return released_cards
+
+func hand_total() -> int:
+	var sum = get_tree().get_nodes_in_group("Hand").reduce(func (accum, card: CardUI): return accum + card.card.card_value, 0)
+	return sum
