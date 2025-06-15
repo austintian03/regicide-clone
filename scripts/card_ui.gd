@@ -97,7 +97,7 @@ func check_selectable(selected_values: Array[int], discard_target: int) -> bool:
 	# elsewise if Aces haven't been selected
 	if card.rank >= 6:
 		return false
-	elif !selected_values.has(card.card_value) or sum >= 10:
+	elif !selected_values.has(card.card_value) or sum >= 8:
 		return false
 	return true
 
