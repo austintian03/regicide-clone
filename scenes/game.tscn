@@ -59,6 +59,21 @@ offset_top = 424.0
 offset_right = -7.016
 offset_bottom = 404.0
 
+[node name="DeckTracker" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme = ExtResource("4_lbhrr")
+
+[node name="DiscardTracker" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme = ExtResource("4_lbhrr")
+horizontal_alignment = 2
+
 [node name="BossUI" type="CanvasLayer" parent="."]
 
 [node name="BossCard" parent="BossUI" instance=ExtResource("3_lnu2h")]

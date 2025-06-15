@@ -16,6 +16,8 @@ var deck := CardPile.new("Deck")
 var enemies := CardPile.new("Enemies")
 var discard := CardPile.new("Discard")
 var play_area := CardPile.new("Play Area")
+@onready var deck_tracker: Label = $CanvasLayer/DeckTracker
+@onready var discard_tracker: Label = $CanvasLayer/DiscardTracker
 
 # relevant player information
 var player_damage: int = 0
@@ -34,6 +36,7 @@ func _ready() -> void:
 	Events.connect("boss_card_damaged", _on_boss_card_damaged)
 	Events.connect("cards_discarded", _on_cards_discarded)
 	Events.connect("joker_effect", _on_joker_effect)
+	Events.connect("card_pile_size_changed", _on_card_pile_size_changed)
 	
 	# populate player deck with cards and draw starting hand
 	populate(deck, NUMS)
@@ -43,6 +46,9 @@ func _ready() -> void:
 	# populate enemy pile with the royals
 	populate_enemies()
 	draw_new_royal()
+	
+	# set pile size labels
+	discard_tracker.text = "0"
 
 func check_defeat() -> void:
 	if joker_button.disabled and joker_button_2.disabled:
@@ -63,7 +69,7 @@ func _on_boss_card_damaged(boss_health: int) -> void:
 	print("Resolving boss turn")
 	resolve_boss_turn(boss_health)
 	check_defeat()
-
+	
 func _on_cards_discarded(discarded_cards: Array[CardResource]) -> void:
 	discard.add_cards(discarded_cards)
 	swap_buttons()
@@ -72,6 +78,13 @@ func _on_joker_effect() -> void:
 	discard.add_cards(hand.discard_all())
 	fill_hand()
 	check_defeat()
+	
+func _on_card_pile_size_changed(pile_id: String, new_size: int) -> void:
+	match pile_id:
+		"Deck":
+			deck_tracker.text = str(new_size)
+		"Discard":
+			discard_tracker.text = str(new_size)
 
 # game effect functions
 # these process game logic/rules using the values passed alongside the emitted game event signals
