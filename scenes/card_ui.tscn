@@ -5,16 +5,17 @@
 [ext_resource type="Texture2D" uid="uid://bvk4esxntt83m" path="res://assets/cards/card_clubs_A.png" id="3_birkm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5x102"]
-size = Vector2(128, 176)
+size = Vector2(80, 116)
 
 [node name="CardUI" type="Control"]
-custom_minimum_size = Vector2(80, 112)
+clip_contents = true
+custom_minimum_size = Vector2(80, 116)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -424.0
-offset_top = -156.0
+offset_top = -160.0
 offset_right = -1192.0
 offset_bottom = -524.0
 grow_horizontal = 2
@@ -37,13 +38,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Area2D" type="Area2D" parent="."]
-visible = false
 collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
-position = Vector2(64, 88)
+position = Vector2(40, 58)
 shape = SubResource("RectangleShape2D_5x102")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -64,10 +63,6 @@ texture = ExtResource("3_birkm")
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
 layout_mode = 0
-offset_top = -2.0
 offset_right = 80.0
-offset_bottom = 114.0
+offset_bottom = 116.0
 color = Color(0.0383972, 0.0383972, 0.0383971, 0.666667)
-
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
