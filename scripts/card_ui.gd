@@ -5,8 +5,7 @@ enum State {BASE, HOVERED, CLICKED, UNSELECTABLE}
 var current_state : State
 @onready var state_label: Label = $State
 @onready var texture_rect: TextureRect = $TextureRect
-@onready var area_2d: Area2D = $Area2D
-@onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D
+@onready var color_rect: ColorRect = $ColorRect
 
 @export var card : CardResource
 
@@ -59,6 +58,7 @@ func enter_state(state: State) -> void:
 			offset_bottom -= 15
 		State.UNSELECTABLE:
 			state_label.text = "Unselectable"
+			color_rect.visible = true
 	#print("Entered " + state_label.text)
 
 func exit_state(state: State) -> void:
@@ -69,6 +69,8 @@ func exit_state(state: State) -> void:
 			offset_bottom += 30
 		State.HOVERED:
 			offset_bottom += 15
+		State.UNSELECTABLE:
+			color_rect.visible = false
 
 # functions used to check if cards can be selected
 # to be called with the help of the manager script (HandUI),

@@ -61,5 +61,13 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_birkm")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+offset_top = -2.0
+offset_right = 80.0
+offset_bottom = 114.0
+color = Color(0.0383972, 0.0383972, 0.0383971, 0.666667)
+
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
