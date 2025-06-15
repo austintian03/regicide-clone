@@ -154,9 +154,10 @@ func resolve_suit_effect(suit: String, val: int) -> void:
 			fill_hand(val)
 		# restore random cards from discard to bottom of deck
 		"hearts":
-			print("Restoring up to ", val, " cards back to Tavern deck")
+			var cards_to_restore = min(val, discard.get_size())
+			print("Restoring ", cards_to_restore, " cards back to Tavern deck")
 			discard.shuffle()
-			deck.add_cards(discard.draw_cards(val))
+			deck.add_cards(discard.draw_cards(cards_to_restore))
 		# add defense
 		"spades":
 			player_defense += val
