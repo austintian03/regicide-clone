@@ -14,7 +14,7 @@ func is_empty() -> bool:
 
 func draw_card() -> CardResource:
 	var card = cards.pop_front()
-	#card_pile_size_changed.emit(cards.size())
+	Events.emit_signal("card_pile_size_changed", id, cards.size())
 	return card
 
 func draw_cards(num_cards: int) -> Array[CardResource]:
@@ -25,13 +25,15 @@ func draw_cards(num_cards: int) -> Array[CardResource]:
 	
 func add_card(card: CardResource) -> void:
 	cards.append(card)
-	#card_pile_size_changed.emit(cards.size())
+	Events.emit_signal("card_pile_size_changed", id, cards.size())
 
 func add_cards(added_cards: Array[CardResource]) -> void:
 	cards.append_array(added_cards)
+	Events.emit_signal("card_pile_size_changed", id, cards.size())
 
 func add_card_on_top(card: CardResource) -> void:
 	cards.insert(0, card)
+	Events.emit_signal("card_pile_size_changed", id, cards.size())
 
 func shuffle() -> void:
 	cards.shuffle()
